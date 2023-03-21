@@ -9,7 +9,7 @@ package tradeprocessormain;
  * @author Sam
  */
 public class TradeValidations {
-    private static boolean numFields(String[] fields) {
+    public static boolean numFields(String[] fields) {
         if (fields.length != 3) {
             System.out.println("Warning: Incorrect number of fields");
             return false;
@@ -17,7 +17,7 @@ public class TradeValidations {
         return true;
     }
     
-    private static boolean currencyLength(String code) {
+    public static boolean currencyLength(String code) {
         if (code.length() != 6) {
             System.out.println("Warning: Trade currencies malformed");
             return false;
@@ -25,33 +25,27 @@ public class TradeValidations {
         return true;
     }
     
-    
-    
-    public static boolean validateTrades(String[] fields) {
-        boolean isValid = true;
-        isValid = isValid && numFields(fields);
-        isValid = isValid && currencyLength(fields[0]);
-
-
-
-
-        int tradeAmount = -1;
+    public static boolean validateTradeAmount(String tradeAmountString) {
         try {
-            tradeAmount = Integer.parseInt(fields[1]);
+            Integer.parseInt(tradeAmountString);
+            return true;
         } 
         catch (Exception e) {
              System.out.println("Warning: Trade amount not a valid integer");
-             isValid = false;
+             return false;
         }
-
-        double tradePrice = -1;
+       
+    }
+    
+    public static boolean validateTradePrice(String tradePriceString) {
         try {
-            tradePrice = Double.parseDouble(fields[2]);
+            Double.parseDouble(tradePriceString);
+            return true;
         } 
         catch (Exception e) {
              System.out.println("Warning: Trade price not a valid decimal");
-             isValid = false;
-        }  
-        return isValid;
+             return false;
+        } 
+        
     }
 }
