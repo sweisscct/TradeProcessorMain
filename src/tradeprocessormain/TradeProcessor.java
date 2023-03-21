@@ -19,71 +19,22 @@ import java.util.List;
  * @author Sam
  */
 public class TradeProcessor {
-    public void ProcessTrades() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public void ProcessTrades() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
         System.out.println("Start");
         // Delegated reading in the file
         List<String> lines = FileInput.inputData();
-        
         List<TradeRecord> trades = new ArrayList<>();
         
         lines.forEach(line -> {
-            boolean isValid = TradeValidations.validateTrades(line);
-            
-            if (isValid)
-            {
-                String sourceCurrencyCode = fields[0].substring(0,3);
-                String destinationCurrencyCode = fields[0].substring(3,6);
-
-                TradeRecord trade = new TradeRecord(sourceCurrencyCode, destinationCurrencyCode, tradeAmount, tradePrice);
-                trades.add(trade);   
-            }            
- 
+           TradeRecord trade = TradeParser.parseTrades(line);
+           if (trade != null) {
+               trades.add(trade);
+           }
         });
-        
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        String DB_URL = "jdbc:mysql://localhost/trades";
-        String USER = "sam2022";
-        String PASS = "sam2022";    
-        
-        try(Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-           Statement stmt = conn.createStatement();
-        ) {		
-            String sql;
-            sql = "CREATE TABLE IF NOT EXISTS trades " +
-                    "(id INTEGER not NULL AUTO_INCREMENT, " +
-                    " sourceCurrencyCode VARCHAR(255), " + 
-                    " destinationCurrencyCode VARCHAR(255), " + 
-                    " tradeAmount INTEGER, " + 
-                    " tradePrice DOUBLE, " + 
-                    " PRIMARY KEY ( id ));"; 
-            stmt.executeUpdate(sql);
-            System.out.println("Created table in given database...");  
-            
-            
-            for (TradeRecord trade : trades) {
-                    sql = String.format("INSERT INTO trades (sourceCurrencyCode, destinationCurrencyCode, tradeAmount, tradePrice) VALUES ('%s', '%s', %d, %f);",
-                    trade.sourceCurrencyCode, trade.destinationCurrencyCode, trade.tradeAmount, trade.tradePrice);
-                    stmt.executeUpdate(sql);
-            }
-            System.out.println("Sucessful");
-
-        } catch (SQLException e) {
-            e.printStackTrace();        
-        }        
+        DatabaseSetup.createTable();
+        DatabaseWriter.outputData(trades);
     }
 }
 
-class TradeRecord { 
-    String sourceCurrencyCode;
-    String destinationCurrencyCode;
-    int tradeAmount;
-    double tradePrice;
 
-    public TradeRecord(String sourceCurrencyCode, String destinationCurrencyCode, int tradeAmount, double tradePrice) {
-        this.sourceCurrencyCode = sourceCurrencyCode;
-        this.destinationCurrencyCode = destinationCurrencyCode;
-        this.tradeAmount = tradeAmount;
-        this.tradePrice = tradePrice;
-    }
-}
     

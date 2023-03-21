@@ -34,7 +34,6 @@ public class TradeValidations {
              System.out.println("Warning: Trade amount not a valid integer");
              return false;
         }
-       
     }
     
     public static boolean validateTradePrice(String tradePriceString) {
@@ -46,6 +45,5 @@ public class TradeValidations {
              System.out.println("Warning: Trade price not a valid decimal");
              return false;
         } 
-        
     }
 }
