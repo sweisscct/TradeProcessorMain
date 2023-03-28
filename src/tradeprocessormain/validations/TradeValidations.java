@@ -12,10 +12,17 @@ public class TradeValidations implements ValidationInterface {
     @Override
     public boolean validateData(String[] fields) {
         CompositeValidator validator = new CompositeValidator();
-        ValidationInterface numFields = new ValidateNumFields();
-        validator.addComponent(numFields);
-        validator.addComponent(new ValidateCurrencyLength());
-        validator.addComponent(new ValidateTradeAmount());
+//        ValidationInterface numFields = new ValidateNumFields();
+//        validator.addComponent(numFields);
+//        validator.addComponent(new ValidateCurrencyLength());
+//        validator.addComponent(new ValidateTradeAmount());
+//        validator.addComponent(new ValidateTradePrices());
+        
+        String[] validations = {"numFields", "currencyLength", "tradeAmount", "tradePrice"};
+        ValidationFactory vf = new ValidationFactory();
+        for (String method : validations) {
+            validator.addComponent(vf.createValidation(method));   
+        }
         return validator.validateData(fields);
     }
     
@@ -37,25 +44,31 @@ public class TradeValidations implements ValidationInterface {
 //        return true;
 //    }
     
-    public static boolean validateTradeAmount(String tradeAmountString) {
-        try {
-            Integer.parseInt(tradeAmountString);
-            return true;
-        } 
-        catch (Exception e) {
-             System.out.println("Warning: Trade amount not a valid integer");
-             return false;
-        }
-    }
-    
-    public static boolean validateTradePrice(String tradePriceString) {
-        try {
-            Double.parseDouble(tradePriceString);
-            return true;
-        } 
-        catch (Exception e) {
-             System.out.println("Warning: Trade price not a valid decimal");
-             return false;
-        } 
-    }
+//    public static boolean validateTradeAmount(String tradeAmountString) {
+//        try {
+//            Integer.parseInt(tradeAmountString);
+//            return true;
+//        } 
+//        catch (Exception e) {
+//             System.out.println("Warning: Trade amount not a valid integer");
+//             return false;
+//        }
+//    }
+    /*
+    Make a new class
+    implement the ValidationInterface
+    move the code over to the new class
+    add the component to the CompositeValidator
+    String tradePriceString = fields[2]
+    */
+//    public static boolean validateTradePrice(String tradePriceString) {
+//        try {
+//            Double.parseDouble(tradePriceString); // fields[2]
+//            return true;
+//        } 
+//        catch (Exception e) {
+//             System.out.println("Warning: Trade price not a valid decimal");
+//             return false;
+//        } 
+//    }
 }

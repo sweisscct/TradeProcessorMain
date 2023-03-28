@@ -4,6 +4,7 @@
  */
 package tradeprocessormain;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -24,7 +25,11 @@ public class DatabaseWriter extends DatabaseIO {
                 trade.getTradePrice());
                 
                 stmt.executeUpdate(sql);
+//                this
+//                PreparedStatement pstmt = "INSERT INTO trades (sourceCurrencyCode, destinationCurrencyCode, tradeAmount, tradePrice) VALUES (?, ?, ?, ?);";
         }
+        
+        
         System.out.println("Sucessful");
     }
 }

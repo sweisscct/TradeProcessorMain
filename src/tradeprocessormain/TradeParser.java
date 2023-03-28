@@ -15,11 +15,12 @@ import java.util.List;
 public class TradeParser {
     public static TradeRecord parseTrades(String line) {
         String[] fields = line.split(",");
-        boolean isValid = 
+        TradeValidations validator = new TradeValidations();
+        boolean isValid = validator.validateData(fields);
 //                TradeValidations.numFields(fields) &&
-        TradeValidations.currencyLength(fields[0]) &&
-        TradeValidations.validateTradeAmount(fields[1]) &&
-        TradeValidations.validateTradePrice(fields[2]);
+//        TradeValidations.currencyLength(fields[0]) &&
+//        TradeValidations.validateTradeAmount(fields[1]) &&
+//        TradeValidations.validateTradePrice(fields[2]);
         
         // true && true == true
         // true && false == false

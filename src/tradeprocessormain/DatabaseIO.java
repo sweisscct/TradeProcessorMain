@@ -17,11 +17,13 @@ public abstract class DatabaseIO {
         static final String DB_URL = "jdbc:mysql://localhost/trades";
         static final String USER = "pooa";
         static final String PASS = "pooa";   
+//        static protected  Connection conn;
         
         public static Statement createConnection() {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
                 Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//                this.conn = conn;
                    Statement stmt = conn.createStatement();
                 return stmt;
             } catch (Exception e) {
