@@ -9,5 +9,5 @@ package tradeprocessormain.validations;
  * @author Sam
  */
 public interface ValidationInterface {
-    public boolean validateData();
+    public boolean validateData(String[] fields);
 }

@@ -25,5 +25,22 @@ public class CompositeValidator implements ValidationInterface {
         this.components = components;
     }
     
+    public void addComponent(ValidationInterface newComponent) {
+        components.add(newComponent);
+    }
+    
+    public void removeComponent(ValidationInterface oldComponent) {
+        components.remove(oldComponent);
+    }
+    
+    @Override
+    public boolean validateData(String[] fields) {
+        boolean isValid = true;
+        for (ValidationInterface component : components) {
+            isValid = isValid && component.validateData(fields);
+        }
+        return isValid;
+    }
+    
     
 }

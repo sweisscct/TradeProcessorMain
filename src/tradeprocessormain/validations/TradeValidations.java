@@ -8,22 +8,34 @@ package tradeprocessormain.validations;
  *
  * @author Sam
  */
-public class TradeValidations {
-    public static boolean numFields(String[] fields) {
-        if (fields.length != 3) {
-            System.out.println("Warning: Incorrect number of fields");
-            return false;
-        } 
-        return true;
+public class TradeValidations implements ValidationInterface {
+    @Override
+    public boolean validateData(String[] fields) {
+        CompositeValidator validator = new CompositeValidator();
+        ValidationInterface numFields = new ValidateNumFields();
+        validator.addComponent(numFields);
+        validator.addComponent(new ValidateCurrencyLength());
+        validator.addComponent(new ValidateTradeAmount());
+        return validator.validateData(fields);
     }
     
-    public static boolean currencyLength(String code) {
-        if (code.length() != 6) {
-            System.out.println("Warning: Trade currencies malformed");
-            return false;
-        }
-        return true;
-    }
+   
+    
+//    public static boolean numFields(String[] fields) {
+//        if (fields.length != 3) {
+//            System.out.println("Warning: Incorrect number of fields");
+//            return false;
+//        } 
+//        return true;
+//    }
+//    
+//    public static boolean currencyLength(String code) {
+//        if (code.length() != 6) {
+//            System.out.println("Warning: Trade currencies malformed");
+//            return false;
+//        }
+//        return true;
+//    }
     
     public static boolean validateTradeAmount(String tradeAmountString) {
         try {
