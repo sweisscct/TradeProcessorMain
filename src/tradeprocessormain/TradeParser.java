@@ -4,6 +4,7 @@
  */
 package tradeprocessormain;
 
+import tradeprocessormain.validations.TradeValidations;
 import java.util.ArrayList;
 import java.util.List;
 
